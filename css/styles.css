@@ -3,15 +3,24 @@
 }
 :root {
     --nav-height: 140px;
+    font-family: "PT Sans", sans-serif;
+    font-size: 1.25rem;
+
+    /*Brand Colours*/
+    --colour-primary: #f2d6d7;
+    --colour-secondary: #fbcc29;  
+
+    /*Neutrals*/
+    --colour-bodytext: #333;
+    --colour-background: #f8f8f8;
+
+    /*Emphasis*/
+    --colour-emphasis: #ff6347;
+    --colour-cta: #ff6347;
 }
 
 [id] {
     scroll-margin-top: var(--nav-height);
-}
-
-html {
-    font-family: "PT Sans", sans-serif;
-    font-size: 1.25rem;
 }
 
 
@@ -39,11 +48,11 @@ html {
 }
 
 .topnav__link:hover {
-    color: #ff6347;
+    color: var(--colour-emphasis);
 }
 
 nav, article {
-    background-color: #f8f8f8;
+    background-color: var(--colour-background);
     width: 95%;
     padding: 10px;
     margin: 10px;
@@ -70,7 +79,7 @@ h3.subtitle {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: bisque;
+    background-color: var(--colour-primary);
     /*border-radius: 1em;*/
     max-width: 1200px;
     position: sticky;
@@ -81,19 +90,9 @@ h3.subtitle {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    background-color: darksalmon;
+    background-color: var(--colour-secondary);
      border-radius: 1em;
     max-width: 1200px;
-}
-.flex2 {
-    border: 1px solid green;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-.flex2 p {
-    max-width: 300px;
 }
 
 .story-script-regular {
@@ -143,7 +142,7 @@ article img {
 .prices {
     margin: 20px;
     max-width: 1200px;
-    background-color: #f8f8f8;
+    background-color: var(--colour-background);
     border-radius: 1em;
     padding: 10px;
 }
@@ -155,7 +154,7 @@ article img {
 }
 
 .prices th {
-    background-color:darksalmon;
+    background-color: var(--colour-secondary);
     padding: 10px;
     text-align: left;
     width: 25vw ;
@@ -215,7 +214,8 @@ article img {
         left: -100%;
         top: 160px;
         width: 100%;
-        background-color: bisque;
+        background-color: var(--colour-secondary);
+        border-radius: 1em;
         transition: 0.3s;
         flex-direction: column;
         text-align: center;
