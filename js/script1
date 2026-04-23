@@ -1,0 +1,8 @@
+let users = ["John", "Alex", "Thomas"]
+console.log("Before: " + users);
+function addUser(name) {
+    users.push(name);
+}
+addUser("Sarah");
+console.log("After: " +users);
+
