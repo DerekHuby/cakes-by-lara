@@ -23,8 +23,6 @@
     scroll-margin-top: var(--nav-height);
 }
 
-
-
 .hero-text {
     margin-left: 20px;
 }
@@ -51,11 +49,16 @@
     color: var(--colour-emphasis);
 }
 
-nav, article {
+nav {
     background-color: var(--colour-background);
-    width: 95%;
     padding: 10px;
-    margin: 10px;
+    margin: 0px 0px 20px 0px;
+}
+
+article {
+    background-color: var(--colour-background);
+    padding: 10px;
+    margin: 0px 0px 20px 0px;
 }
 
 h3.subtitle {
@@ -135,10 +138,16 @@ article img {
 }
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     gap: 20px;
 }
 
+.gallery-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 1em;
+    transition: transform 0.3s ease;
+}
 .prices {
     margin: 20px;
     max-width: 1200px;
