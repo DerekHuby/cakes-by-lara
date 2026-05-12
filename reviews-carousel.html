@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reviews Carousel — Cake Site Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── Reset & base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:        #faf7f2;
+      --warm-white:   #ffffff;
+      --rose:         #c8796a;
+      --rose-light:   #f5ede9;
+      --rose-dark:    #9e5548;
+      --ink:          #2a2118;
+      --ink-muted:    #6b5d52;
+      --ink-faint:    #b8a99e;
+      --border:       #e8ddd6;
+      --card-bg:      #ffffff;
+      --gap:          1.5rem;
+      --card-radius:  16px;
+      --transition:   0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+    }
+
+    /* ─── Section wrapper ───────────────────────────────────────── */
+    .reviews-section {
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .reviews-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .reviews-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 0.5rem;
+    }
+
+    .reviews-heading {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .reviews-heading em {
+      font-style: italic;
+      color: var(--rose);
+    }
+
+    /* ─── Carousel structure ────────────────────────────────────── */
+
+    /*
+      The viewport is the "window" the user looks through.
+      overflow: hidden is the key property — it clips everything
+      outside its bounds, creating the illusion of cards sliding in
+      and out of view.
+    */
+    .reviews-viewport {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    /*
+      The track holds all cards in a single horizontal row.
+      Its total width is (number of cards × card width) + gaps.
+      We slide it left/right using transform: translateX().
+      The transition property on this element is what makes the
+      slide animate smoothly rather than jumping.
+    */
+    .reviews-track {
+      display: flex;
+      gap: var(--gap);
+      transition: transform var(--transition);
+      /* translateX is set by JS */
+    }
+
+    /* ─── Individual review card ────────────────────────────────── */
+
+    /*
+      flex: 0 0 <width> means:
+        flex-grow:   0  → don't stretch to fill extra space
+        flex-shrink: 0  → don't shrink if space is tight
+        flex-basis:  <width> → always be exactly this wide
+      This rigidity is what makes the carousel geometry predictable.
+
+      The calc() accounts for the gaps between cards so that exactly
+      N cards fit inside the viewport width at any given breakpoint.
+    */
+    .review-card {
+      flex: 0 0 calc(33.333% - 1rem); /* 3 cards on desktop */
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .review-card:hover {
+      border-color: var(--rose);
+    }
+
+    /* Stars */
+    .review-stars {
+      color: var(--rose);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      line-height: 1;
+    }
+
+    /* Review body text */
+    .review-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.975rem;
+      line-height: 1.75;
+      color: var(--ink);
+      flex: 1; /* pushes author to bottom of card */
+
+      /* Clamp long reviews to 5 lines with a fade */
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Author area */
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .author-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 500;
+      flex-shrink: 0;
+      /* colour set inline by JS */
+    }
+
+    .author-meta { display: flex; flex-direction: column; gap: 1px; }
+
+    .author-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .author-date {
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+    }
+
+    /* ─── Controls ──────────────────────────────────────────────── */
+    .reviews-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.75rem;
+    }
+
+    .ctrl-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--warm-white);
+      color: var(--ink);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+      flex-shrink: 0;
+    }
+
+    .ctrl-btn:hover:not(:disabled) {
+      background: var(--rose-light);
+      border-color: var(--rose);
+    }
+
+    .ctrl-btn:active:not(:disabled) {
+      transform: scale(0.94);
+    }
+
+    .ctrl-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* Dot indicators */
+    .ctrl-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .ctrl-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ink-faint);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      border: none;
+      padding: 0;
+    }
+
+    .ctrl-dot.active {
+      background: var(--rose);
+      transform: scale(1.4);
+    }
+
+    /* Review count label */
+    .ctrl-label {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: var(--ink-faint);
+    }
+
+    /* ─── Responsive breakpoints ────────────────────────────────── */
+
+    /*
+      On medium screens (tablets), show 2 cards.
+      The JS reads offsetWidth at navigation time, so it always
+      uses the current rendered width — no stale values.
+    */
+    @media (max-width: 720px) {
+      .review-card {
+        flex: 0 0 calc(50% - 0.75rem); /* 2 cards */
+      }
+    }
+
+    /*
+      On small screens (phones), show 1 card full width.
+    */
+    @media (max-width: 480px) {
+      .review-card {
+        flex: 0 0 100%; /* 1 card */
+      }
+      .reviews-heading { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<section class="reviews-section" aria-label="Customer reviews">
+
+  <header class="reviews-header">
+    <p class="reviews-eyebrow">Happy customers</p>
+    <h2 class="reviews-heading">What people are <em>saying</em></h2>
+  </header>
+
+  <div class="reviews-viewport" id="reviewsViewport">
+    <div class="reviews-track" id="reviewsTrack">
+      <!-- Cards are injected here by JavaScript -->
+    </div>
+  </div>
+
+  <div class="reviews-controls" role="group" aria-label="Carousel navigation">
+    <button class="ctrl-btn" id="ctrlPrev" aria-label="Previous reviews">&#8592;</button>
+    <button class="ctrl-btn" id="ctrlNext" aria-label="Next reviews">&#8594;</button>
+    <div class="ctrl-dots" id="ctrlDots" aria-hidden="true"></div>
+    <span class="ctrl-label" id="ctrlLabel"></span>
+  </div>
+
+</section>
+
+<script>
+  // ─── 1. DATA ──────────────────────────────────────────────────
+  //
+  // Keeping reviews in a plain array of objects means switching to
+  // a fetched JSON file later is a one-line change:
+  //   const reviews = await fetch('reviews.json').then(r => r.json());
+  //
+  const reviews = [
+    {
+      text: "Absolutely stunning celebration cake. Every guest was asking where it came from. The flavours were incredible — moist sponge and the buttercream was perfectly balanced.",
+      author: "Sarah M.",
+      date: "April 2025",
+      stars: 5,
+      initials: "SM",
+      avatarBg: "#f5ede9",
+      avatarColor: "#9e5548"
+    },
+    {
+      text: "Ordered a birthday cake at short notice and it arrived beautifully boxed and on time. The decoration matched exactly what I described. Will definitely be ordering again.",
+      author: "James T.",
+      date: "March 2025",
+      stars: 5,
+      initials: "JT",
+      avatarBg: "#e9f2eb",
+      avatarColor: "#3d7a4f"
+    },
+    {
+      text: "The lemon drizzle wedding favours were a huge hit. Guests kept coming back for seconds. Professional, friendly, and everything tasted homemade in the very best sense.",
+      author: "Priya K.",
+      date: "March 2025",
+      stars: 5,
+      initials: "PK",
+      avatarBg: "#eee9f5",
+      avatarColor: "#6a4faa"
+    },
+    {
+      text: "Genuinely the best carrot cake I have ever had. The cream cheese frosting was light, not cloying, and the walnuts gave it a lovely texture. A real treat.",
+      author: "Mark R.",
+      date: "February 2025",
+      stars: 5,
+      initials: "MR",
+      avatarBg: "#fdf3e3",
+      avatarColor: "#9a6a1f"
+    },
+    {
+      text: "Commissioned a three-tier cake for our anniversary. It looked like something from a magazine. Tasted even better than it looked — rich, moist chocolate sponge throughout.",
+      author: "Emily C.",
+      date: "February 2025",
+      stars: 5,
+      initials: "EC",
+      avatarBg: "#fce9e9",
+      avatarColor: "#a33030"
+    },
+    {
+      text: "I've ordered twice now and the consistency is remarkable. Exactly what you want from a baker — you know it's going to be wonderful every single time. Highly recommend.",
+      author: "Tom B.",
+      date: "January 2025",
+      stars: 5,
+      initials: "TB",
+      avatarBg: "#e4f0f8",
+      avatarColor: "#2a6a99"
+    }
+  ];
+
+
+  // ─── 2. GENERATE CARDS ────────────────────────────────────────
+  //
+  // Rather than hand-writing HTML for each review, we build the
+  // DOM elements programmatically from the data array.
+  // forEach gives us both the item and its index.
+  //
+  const track = document.getElementById('reviewsTrack');
+
+  reviews.forEach((review, index) => {
+    // Build the stars string from the rating number
+    const stars = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
+
+    // Create the article element and set its HTML
+    const card = document.createElement('article');
+    card.className = 'review-card';
+    card.setAttribute('aria-label', `Review by ${review.author}`);
+
+    card.innerHTML = `
+      <p class="review-stars" aria-label="${review.stars} out of 5 stars">${stars}</p>
+      <blockquote class="review-text">${review.text}</blockquote>
+      <footer class="review-author">
+        <div class="author-avatar"
+             style="background:${review.avatarBg}; color:${review.avatarColor}"
+             aria-hidden="true">
+          ${review.initials}
+        </div>
+        <div class="author-meta">
+          <span class="author-name">${review.author}</span>
+          <time class="author-date">${review.date}</time>
+        </div>
+      </footer>
+    `;
+
+    track.appendChild(card);
+  });
+
+
+  // ─── 3. CAROUSEL LOGIC ───────────────────────────────────────
+  //
+  // We query the cards *after* generating them above.
+  //
+  const cards    = document.querySelectorAll('.review-card');
+  const viewport = document.getElementById('reviewsViewport');
+  const prevBtn  = document.getElementById('ctrlPrev');
+  const nextBtn  = document.getElementById('ctrlNext');
+  const dotsEl   = document.getElementById('ctrlDots');
+  const label    = document.getElementById('ctrlLabel');
+
+  let currentPage = 0;
+
+  // cardsPerPage() reads the CSS — we don't hardcode 3 here.
+  // At each breakpoint the CSS changes flex-basis, so the rendered
+  // offsetWidth changes, and dividing viewport width by card width
+  // tells us how many are actually visible right now.
+  function cardsPerPage() {
+    if (!cards.length) return 1;
+    const viewportWidth = viewport.offsetWidth;
+    const cardWidth = cards[0].offsetWidth;
+    // Round to avoid floating-point glitches (e.g. 2.9999 → 3)
+    return Math.round(viewportWidth / cardWidth);
+  }
+
+  function totalPages() {
+    return Math.ceil(cards.length / cardsPerPage());
+  }
+
+
+  // ─── 4. NAVIGATION ───────────────────────────────────────────
+  //
+  function goToPage(page) {
+    const pages = totalPages();
+
+    // Clamp: never go below 0 or above the last page
+    currentPage = Math.max(0, Math.min(page, pages - 1));
+
+    // Measure card width at the moment of navigation.
+    // This handles responsive changes: if the user resizes the
+    // window and then clicks next, we get the current width.
+    const cardWidth = cards[0].offsetWidth;
+    const gapPx = parseFloat(
+      getComputedStyle(track).gap   // reads the CSS --gap variable
+    );
+
+    const offset = currentPage * cardsPerPage() * (cardWidth + gapPx);
+    track.style.transform = `translateX(-${offset}px)`;
+
+    // Update prev/next button states
+    prevBtn.disabled = currentPage === 0;
+    nextBtn.disabled = currentPage >= pages - 1;
+
+    // Update dot indicators
+    document.querySelectorAll('.ctrl-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentPage);
+    });
+
+    // Update the text label
+    const start = currentPage * cardsPerPage() + 1;
+    const end   = Math.min(start + cardsPerPage() - 1, reviews.length);
+    label.textContent = `${start}–${end} of ${reviews.length}`;
+  }
+
+
+  // ─── 5. BUILD DOTS ───────────────────────────────────────────
+  //
+  // Dots need to reflect how many pages there are, which depends
+  // on the current breakpoint. We rebuild them on resize too.
+  //
+  function buildDots() {
+    dotsEl.innerHTML = '';
+    for (let i = 0; i < totalPages(); i++) {
+      const dot = document.createElement('button');
+      dot.className = 'ctrl-dot' + (i === currentPage ? ' active' : '');
+      dot.setAttribute('aria-label', `Go to page ${i + 1}`);
+      dot.addEventListener('click', () => goToPage(i));
+      dotsEl.appendChild(dot);
+    }
+  }
+
+
+  // ─── 6. EVENT LISTENERS ──────────────────────────────────────
+
+  prevBtn.addEventListener('click', () => goToPage(currentPage - 1));
+  nextBtn.addEventListener('click', () => goToPage(currentPage + 1));
+
+  // Touch/swipe support
+  // We record where the finger started and compare on release.
+  let touchStartX = 0;
+
+  viewport.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true }); // passive: true → browser can scroll without waiting for JS
+
+  viewport.addEventListener('touchend', e => {
+    const delta = touchStartX - e.changedTouches[0].clientX;
+    // Only register as a swipe if the finger moved more than 40px
+    if (Math.abs(delta) > 40) {
+      goToPage(delta > 0 ? currentPage + 1 : currentPage - 1);
+    }
+  }, { passive: true });
+
+  // Keyboard support (when focus is within the section)
+  document.querySelector('.reviews-section').addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  goToPage(currentPage - 1);
+    if (e.key === 'ArrowRight') goToPage(currentPage + 1);
+  });
+
+  // Rebuild on resize so dot count and offsets stay correct
+  // ResizeObserver is more efficient than a window 'resize' listener
+  // because it only fires when this specific element changes size.
+  const ro = new ResizeObserver(() => {
+    buildDots();
+    goToPage(currentPage); // recalculate offset for new width
+  });
+  ro.observe(viewport);
+
+
+  // ─── 7. INITIALISE ───────────────────────────────────────────
+  buildDots();
+  goToPage(0);
+
+</script>
+</body>
+</html>
