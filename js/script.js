@@ -95,3 +95,32 @@ mq.addEventListener('change', (e) => {
   }
 });
 
+const track = document.getElementById("reviewsTrack");
+console.log("Reviews data:", reviews);
+console.log("Track element:", track);
+reviews.forEach((review, index) => {
+  console.log(`Processing review ${index + 1}:`, review);
+  // Build the stars based on the review rating
+  const stars = "★".repeat(review.stars) + "☆".repeat(5 - review.stars);
+
+  // Create the article element (a 'card') and set its HTML
+  const card = document.createElement("article");
+  card.className = "review-card";
+  card.setAttribute("aria-label", `Review by ${review.author}`);
+  card.innerHTML = `
+       <p class="review-stars" aria-label="${review.stars} out of 5 stars">${stars}</p>
+       <blockquote class="review-text">"${review.text}"</blockquote>
+       <footer class="review-author">
+            <div class="author-avatar" 
+            style="background-color: ${review.avatarBG}; color: ${review.avatarColor};" 
+            aria-hidden="true">
+                  ${review.initials}
+            </div>
+            <div class="author-meta">
+                <span class="author-name">${review.author}</span>
+                <span class="author-date">${review.date}</span>
+            </div>
+        </footer>
+    `;
+  track.appendChild(card);
+});
