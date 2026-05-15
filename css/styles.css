@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
 }
+
 :root {
     --nav-height: 140px;
     font-family: "PT Sans", sans-serif;
@@ -8,7 +9,7 @@
 
     /*Brand Colours*/
     --colour-primary: #f2d6d7;
-    --colour-secondary: #fbcc29;  
+    --colour-secondary: #fbcc29;
 
     /*Neutrals*/
     --colour-bodytext: #333;
@@ -17,6 +18,20 @@
     /*Emphasis*/
     --colour-emphasis: #ff6347;
     --colour-cta: #ff6347;
+
+    --cream: #faf7f2;
+    --warm-white: #ffffff;
+    --rose: #c8796a;
+    --rose-light: #f5ede9;
+    --rose-dark: #9e5548;
+    --ink: #2a2118;
+    --ink-muted: #6b5d52;
+    --ink-faint: #b8a99e;
+    --border: #e8ddd6;
+    --card-bg: #ffffff;
+    --gap: 1.5rem;
+    --card-radius: 16px;
+    --transition: 0.38s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -32,15 +47,16 @@ body {
 .hero-text {
     margin-left: 20px;
 }
+
 .topnav__links {
     display: flex;
     align-items: end;
     margin-bottom: 15px;
-    align-self:end;
+    align-self: end;
 }
 
 .topnav__item {
-    display:inline-flex;
+    display: inline-flex;
     margin-right: 20px;
 }
 
@@ -80,7 +96,8 @@ h3.subtitle {
     margin-right: auto;
 }
 
-.titlegraphics h1, h3 {
+.titlegraphics h1,
+h3 {
     margin: 0;
 }
 
@@ -112,32 +129,33 @@ h3.subtitle {
 }
 
 .story-script-regular {
-  font-family: "Story Script", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Story Script", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
+
 .pt-sans-regular {
-  font-family: "PT Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .pt-sans-bold {
-  font-family: "PT Sans", sans-serif;
-  font-weight: 700;
-  font-style: normal;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
 }
 
 .pt-sans-regular-italic {
-  font-family: "PT Sans", sans-serif;
-  font-weight: 400;
-  font-style: italic;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-style: italic;
 }
 
 .pt-sans-bold-italic {
-  font-family: "PT Sans", sans-serif;
-  font-weight: 700;
-  font-style: italic;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: italic;
 }
 
 article img {
@@ -149,6 +167,7 @@ article img {
     margin: 20px;
     max-width: 1200px;
 }
+
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
@@ -161,6 +180,7 @@ article img {
     border-radius: 1em;
     transition: transform 0.3s ease;
 }
+
 .prices {
     margin: 20px;
     max-width: 1200px;
@@ -179,9 +199,11 @@ article img {
     background-color: var(--colour-secondary);
     padding: 10px;
     text-align: left;
-    width: 25vw ;
+    width: 25vw;
 }
-.prices td, th {
+
+.prices td,
+th {
     border: 2px solid #ddd;
     padding: 10px;
 }
@@ -210,12 +232,14 @@ article img {
     margin: 4px 0;
     transition: 0.4s;
 }
+
 .quote-box {
-        margin: 0px;
-        max-width: 400px;
-        border-radius: 0.5em;
-        padding: 1rem;
-    }
+    margin: 0px;
+    max-width: 400px;
+    border-radius: 0.5em;
+    padding: 1rem;
+}
+
 p.quote-box {
     color: #111;
     font-size: 0.75rem;
@@ -230,31 +254,32 @@ p.quote-box {
 p.quote_green {
     color: white;
     background-color: green;
-    }
+}
 
 .quote_pink {
-background-color: pink;
-    }
+    background-color: pink;
+}
 
-.quote_yellow   {
-background-color: yellow;
-    }
+.quote_yellow {
+    background-color: yellow;
+}
 
-    .quote_blue {
-background-color: lightblue;
-    }
+.quote_blue {
+    background-color: lightblue;
+}
 
-    
+
 .testimonial {
     padding: 10px;
     margin: 20px;
-    display:grid;
+    display: grid;
     gap: 1em;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-auto-rows: minmax(150px, auto);
     align-items: center;
     justify-items: center;
 }
+
 @media (max-width: 768px) {
 
     .topnav__links {
@@ -266,15 +291,19 @@ background-color: lightblue;
     .hamburger {
         display: flex;
     }
+
     .hamburger.active .bar:nth-child(1) {
         transform: rotate(-45deg) translate(-5px, 10px);
     }
+
     .hamburger.active .bar:nth-child(2) {
         opacity: 0;
     }
+
     .hamburger.active .bar:nth-child(3) {
         transform: rotate(45deg) translate(-5px, -10px);
     }
+
     .topnav__links {
         position: fixed;
         left: -100%;
@@ -288,6 +317,7 @@ background-color: lightblue;
         align-items: center;
         display: flex;
     }
+
     .topnav__item {
         margin: 15px 0;
     }
@@ -295,5 +325,55 @@ background-color: lightblue;
     .topnav__links.active {
         left: 0;
     }
-    
+
 }
+
+/* ─── Carousel structure ────────────────────────────────────── */
+
+/*
+      The viewport is the "window" the user looks through.
+      overflow: hidden is the key property — it clips everything
+      outside its bounds, creating the illusion of cards sliding in
+      and out of view.
+    */
+.reviews-viewport {
+    overflow: hidden;
+    width: 100%;
+}
+
+/*
+      The track holds all cards in a single horizontal row.
+      Its total width is (number of cards × card width) + gaps.
+      We slide it left/right using transform: translateX().
+      The transition property on this element is what makes the
+      slide animate smoothly rather than jumping.
+    */
+
+.reviews-track {
+    display: flex;
+    gap: var(--gap);
+    transition: var(--transition);
+    /* translateX is set by JS */
+}
+
+/*
+      flex: 0 0 <width> means:
+        flex-grow:   0  → don't stretch to fill extra space
+        flex-shrink: 0  → don't shrink if space is tight
+        flex-basis:  <width> → always be exactly this wide
+      This rigidity is what makes the carousel geometry predictable.
+ 
+      The calc() accounts for the gaps between cards so that exactly
+      N cards fit inside the viewport width at any given breakpoint.
+    */
+    .review-card {
+      flex: 0 0 calc(33.333% - 1rem); /* 3 cards on desktop */
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: border-color 0.2s;
+    }
