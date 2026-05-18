@@ -10,7 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Story+Script&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/clear.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -43,14 +44,19 @@
             <div class="hero-text">
                 <p>I’m Lara and I am the founder of Cakes By Lara.
 
-Alongside my career working in Fashion and Textile Design I was making cakes for family and friends and thought to myself I have a skill here that I would like to offer to others, from there Cakes By Lara was born.  I have also been supplying our local Deli with hand baked goods for the last few years.
+                    Alongside my career working in Fashion and Textile Design I was making cakes for family and friends
+                    and thought to myself I have a skill here that I would like to offer to others, from there Cakes By
+                    Lara was born. I have also been supplying our local Deli with hand baked goods for the last few
+                    years.
 
-I design and make bespoke celebration cakes, cupcakes and Brownies.  I work with every one of my customers to create unique designs specific to their requirements, no one cake is the same!!
+                    I design and make bespoke celebration cakes, cupcakes and Brownies. I work with every one of my
+                    customers to create unique designs specific to their requirements, no one cake is the same!!
 
-I am fully insured along with a consistent 5* food hygiene rating.
+                    I am fully insured along with a consistent 5* food hygiene rating.
 
-</p>
-                <p>Browse the <a href="#">gallery</a> for inspiration, and then <a href="#">contact me</a> to plan the perfect cake for that special occasion!</p>
+                </p>
+                <p>Browse the <a href="#">gallery</a> for inspiration, and then <a href="#">contact me</a> to plan the
+                    perfect cake for that special occasion!</p>
             </div>
         </article>
 
@@ -99,12 +105,18 @@ I am fully insured along with a consistent 5* food hygiene rating.
             </table>
         </div>
 
-        <section class="reviews">
-            <h2>What customers say</h2>
+        <section class="reviews-section" aria-label="Customer reviews">
+            <h2 class="reviews-heading">What customers say</h2>
             <div class="reviews-viewport" id="reviewsViewport">
                 <div class="reviews-track" id="reviewsTrack">
                     <!-- Reviews will be dynamically inserted here -->
                 </div>
+            </div>
+            <div class="reviews-controls" role="group" aria-label="Review navigation">
+                <button class="ctrl-btn" id="ctrlPrev" aria-label="Previous review">‹</button>
+                <button class="ctrl-btn" id="ctrlNext" aria-label="Next review">›</button>
+                <div class="ctrl-dots" id="ctrlDots" aria-hidden="true"></div>
+                <span class="ctrl-label" id="ctrlLabel"></span>
             </div>
         </section>
 
