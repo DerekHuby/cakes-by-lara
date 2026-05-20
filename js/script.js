@@ -197,6 +197,32 @@ nextBtn.addEventListener("click", () => goToPage(currentPage + 1));
   // We record where the finger started and compare on release.
   let touchStartX = 0;
 
+viewport.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true }); // passive: true → browser can scroll without waiting for JS
+
+  viewport.addEventListener('touchend', e => {
+    const delta = touchStartX - e.changedTouches[0].clientX;
+    // Only register as a swipe if the finger moved more than 40px
+    if (Math.abs(delta) > 40) {
+      goToPage(delta > 0 ? currentPage + 1 : currentPage - 1);
+    }
+  }, { passive: true });
+ 
+  // Keyboard support (when focus is within the section)
+  document.querySelector('.reviews-section').addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  goToPage(currentPage - 1);
+    if (e.key === 'ArrowRight') goToPage(currentPage + 1);
+  });
+ 
+  // Rebuild on resize so dot count and offsets stay correct
+  // ResizeObserver is more efficient than a window 'resize' listener
+  // because it only fires when this specific element changes size.
+  const ro = new ResizeObserver(() => {
+    buildDots();
+    goToPage(currentPage); // recalculate offset for new width
+  });
+  ro.observe(viewport);
 //INITIALISE
 buildDots();
-goToPage(0);
+goToPage(0);    

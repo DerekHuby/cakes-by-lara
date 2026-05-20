@@ -3,16 +3,16 @@
 }
 
 :root {
-    --nav-height: 140px;
+    --nav-height: 150px;
     font-family: "PT Sans", sans-serif;
     font-size: 1.25rem;
 
     /*Brand Colours*/
     --colour-primary: #f2d6d7;
-    --colour-secondary: #fbcc29;
+    --colour-secondary: #fafab1;
 
     /*Neutrals*/
-    --colour-bodytext: #333;
+    --colour-bodytext: #1b111133;
     --colour-background: #f8f8f8;
 
     /*Emphasis*/
@@ -36,7 +36,8 @@
 
 body {
     margin: 0;
-    padding: 0;
+    padding: var(--nav-height) 0 0 0;
+    /*scroll-margin-top: var(--nav-height);*/
     background-color: var(--colour-primary);
 }
 
@@ -215,14 +216,17 @@ th {
 }
 
 .sticky {
-    position: sticky;
+    position: fixed;
     top: 0;
+    z-index:100;
+    width: 100%;
 }
 
 .hamburger {
     display: none;
     flex-direction: column;
     cursor: pointer;
+    margin-right: 3vw;
 }
 
 .bar {
@@ -327,6 +331,40 @@ p.quote_green {
     }
 
 }
+/* ─── Section wrapper ───────────────────────────────────────── */
+    .reviews-section {
+      width: 100%;
+      max-width: 1000px;
+    }
+
+     .reviews-header {
+      margin-bottom: 2.5rem;
+    }
+
+
+    .reviews-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 0.5rem;
+    }
+
+    .reviews-heading {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--ink);
+      line-height: 1.2;
+    }
+ 
+    .reviews-heading em {
+      font-style: italic;
+      color: var(--rose);
+    }
+
 
 /* ─── Carousel structure ────────────────────────────────────── */
 
@@ -376,4 +414,159 @@ p.quote_green {
       flex-direction: column;
       gap: 1rem;
       transition: border-color 0.2s;
+    }
+
+    .review-card:hover {
+      border-color: var(--rose);
+    }
+ 
+     /* Review body text */
+    .review-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.975rem;
+      line-height: 1.5;
+      margin: 0;
+      color: var(--ink);
+      flex: 1; /* pushes author to bottom of card */
+ 
+      /* Clamp long reviews to 5 lines with a fade */
+      display: -webkit-box;
+      -webkit-line-clamp: 8;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+ 
+    /* Author area */
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+ 
+    .author-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 500;
+      flex-shrink: 0;
+      /* colour set inline by JS */
+    }
+ 
+    .author-meta { display: flex; flex-direction: column; gap: 1px; }
+ 
+    .author-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+ 
+    .author-date {
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+    }
+ 
+    /* Stars */
+    .review-stars {
+      color: var(--rose);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      line-height: 1;
+    }
+
+        /* ─── Controls ──────────────────────────────────────────────── */
+    .reviews-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.75rem;
+    }
+ 
+    .ctrl-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--warm-white);
+      color: var(--ink);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+      flex-shrink: 0;
+    }
+ 
+    .ctrl-btn:hover:not(:disabled) {
+      background: var(--rose-light);
+      border-color: var(--rose);
+    }
+ 
+    .ctrl-btn:active:not(:disabled) {
+      transform: scale(0.94);
+    }
+ 
+    .ctrl-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+ 
+    /* Dot indicators */
+    .ctrl-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+ 
+    .ctrl-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ink-faint);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      border: none;
+      padding: 0;
+    }
+ 
+    .ctrl-dot.active {
+      background: var(--rose);
+      transform: scale(1.4);
+    }
+ 
+    /* Review count label */
+    .ctrl-label {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: var(--ink-faint);
+    }
+ 
+    /* ─── Responsive breakpoints ────────────────────────────────── */
+ 
+    /*
+      On medium screens (tablets), show 2 cards.
+      The JS reads offsetWidth at navigation time, so it always
+      uses the current rendered width — no stale values.
+    */
+    @media (max-width: 720px) {
+      .review-card {
+        flex: 0 0 calc(50% - 0.75rem); /* 2 cards */
+      }
+    }
+ 
+    /*
+      On small screens (phones), show 1 card full width.
+    */
+    @media (max-width: 480px) {
+      .review-card {
+        flex: 0 0 100%; /* 1 card */
+      }
+      .reviews-heading { font-size: 1.6rem; }
     }
