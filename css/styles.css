@@ -438,6 +438,7 @@ p.quote_green {
       /* Clamp long reviews to 5 lines with a fade */
       display: -webkit-box;
       -webkit-line-clamp: 8;
+      line-clamp: 8;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
